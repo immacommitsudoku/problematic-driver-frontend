@@ -31,6 +31,7 @@ function App() {
   const [drivers, setDrivers] = useState([]);
   const [driverIds, setDriverIds] = useState([]);
   const [fetching, setIsFetching] = useState(false);
+  const [firstTime, setIsFirstTime] = useState(true);
   const [searchKeyword, setSearchKeyword] = useState(undefined);
   const [selectedDriver, setSelectedDriver] = useState(undefined);
   const [selectedDriverId, setSelectedDriverId] = useState(undefined);
@@ -104,13 +105,14 @@ function App() {
     }
   }, [driverIds]);
   const handleSearch = useCallback(() => {
-    setDriverIds(undefined);
-    setDrivers(undefined);
-    setIsFetching(true);
-    setTimeout(() => {
-      setIsFetching(false);
-    }, 1500);
     if (searchKeyword && searchKeyword.length >= 4) {
+      setIsFirstTime(false);
+      setDriverIds(undefined);
+      setDrivers(undefined);
+      setIsFetching(true);
+      setTimeout(() => {
+        setIsFetching(false);
+      }, 1500);
       index
         .search(searchKeyword, {
           attributesToRetrieve: "id",
@@ -228,6 +230,18 @@ function App() {
             ))}
           </Container>
         )}
+        <Container
+          sx={{
+            gap: 2,
+            display: "flex",
+            flexDirection: "column",
+            textAlign: "center",
+          }}
+        >
+          {!firstTime && !fetching && (!drivers || drivers.length === 0) && (
+            <Typography>Tidak ada hasil</Typography>
+          )}
+        </Container>
       </Box>
       {selectedDriver && (
         <Dialog open={!!selectedDriver} maxWidth="xl" onClose={handleClose}>
