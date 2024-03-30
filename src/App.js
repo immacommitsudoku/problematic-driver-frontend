@@ -58,6 +58,7 @@ function App() {
             v.data.relatedReports.flatMap((d) => d.partner),
           );
           setSelectedDriver({
+            id: v.data.id,
             name: v.data.name,
             nik: v.data.nik,
             phoneNumer: v.data.phoneNumber,
@@ -88,6 +89,7 @@ function App() {
             res.data.relatedReports.flatMap((d) => d.partner),
           );
           return {
+            id: res.data.id,
             name: res.data.name,
             nik: res.data.nik,
             phoneNumer: res.data.phoneNumber,
@@ -128,11 +130,11 @@ function App() {
       <Box
         alignItems={"center"}
         display="flex"
-        padding={"25px 50px"}
+        padding={"25px 0px"}
         flexDirection="column"
         gap={2}
       >
-        <Paper sx={{ width: "80%" }}>
+        <Paper sx={{ width: "90%" }}>
           <Container sx={{ textAlign: "center" }}>
             <Typography variant="h3">Database Driver Bermasalah</Typography>
           </Container>
@@ -163,7 +165,7 @@ function App() {
           </Container>
           <Container
             sx={{
-              padding: "25px 0px",
+              padding: "25px",
               display: "flex",
               flexDirection: "row",
               gap: 1,
@@ -186,7 +188,8 @@ function App() {
                 sx={{
                   padding: "15px",
                   display: "flex",
-                  flexDirection: "row",
+                  flexDirection: "column",
+                  textAlign: "center",
                   alignItems: "center",
                 }}
               >
@@ -220,9 +223,7 @@ function App() {
                 </Grid>
                 <Button
                   variant="contained"
-                  onClick={() =>
-                    setSelectedDriverId("9d6ec70c-6746-4f52-8e22-938d09f73e03")
-                  }
+                  onClick={() => setSelectedDriverId(d.id)}
                 >
                   Tampilkan detil
                 </Button>
@@ -248,7 +249,7 @@ function App() {
           <DialogTitle>{selectedDriver.name}</DialogTitle>
           <DialogContent>
             <Container>
-              <ImageList sx={{ width: "100%", height: "500px" }} cols={3}>
+              <ImageList sx={{ width: "100%", height: "500px" }} cols={1}>
                 {selectedDriver.driverPics.map((p, idx) => (
                   <ImageListItem key={idx}>
                     <img src={p} alt={idx} loading="lazy" />
