@@ -99,22 +99,26 @@ function App() {
             relatedReports: res.data.relatedReports,
           };
         }),
-      ).then((v) =>
-        setDrivers(
-          v.filter((v) => v.status === "fulfilled").map((v) => v.value),
-        ),
-      );
+      )
+        .then((v) =>
+          setDrivers(
+            v.filter((v) => v.status === "fulfilled").map((v) => v.value),
+          ),
+        )
+        .finally((v) => {
+          setTimeout(() => {
+            setIsFetching(false);
+          }, 500);
+        });
     }
-  }, [driverIds]);
+  }, [driverIds, setIsFetching]);
   const handleSearch = useCallback(() => {
     if (searchKeyword && searchKeyword.length >= 4) {
       setIsFirstTime(false);
       setDriverIds(undefined);
       setDrivers(undefined);
       setIsFetching(true);
-      setTimeout(() => {
-        setIsFetching(false);
-      }, 1500);
+
       index
         .search(searchKeyword, {
           attributesToRetrieve: "id",
