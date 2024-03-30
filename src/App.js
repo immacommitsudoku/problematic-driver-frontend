@@ -70,12 +70,6 @@ function App() {
   }, [selectedDriverId]);
   useEffect(() => {
     if (driverIds && driverIds.length > 0) {
-      setDriverIds(undefined);
-      setDrivers(undefined);
-      setIsFetching(true);
-      setTimeout(() => {
-        setIsFetching(false);
-      }, 1500);
       Promise.allSettled(
         driverIds.map(async (id) => {
           const res = await axios.get(
@@ -110,6 +104,12 @@ function App() {
     }
   }, [driverIds]);
   const handleSearch = useCallback(() => {
+    setDriverIds(undefined);
+    setDrivers(undefined);
+    setIsFetching(true);
+    setTimeout(() => {
+      setIsFetching(false);
+    }, 1500);
     if (searchKeyword && searchKeyword.length >= 4) {
       index
         .search(searchKeyword, {
